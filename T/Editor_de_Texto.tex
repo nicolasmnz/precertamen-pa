@@ -1,0 +1,102 @@
+\documentclass[11pt,letterpaper]{article}
+
+% Enunciado para Programación Avanzada (INF 20125).
+% Compilar con: pdflatex Editor_de_Texto.tex
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{lmodern}
+\usepackage[letterpaper,left=2.5cm,right=2.5cm,top=3.7cm,bottom=2.6cm,headheight=42pt,headsep=14pt]{geometry}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{microtype}
+
+\usepackage{parskip}
+\usepackage{needspace}
+
+
+
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\makebox[0pt][l]{\hspace{0.75em}\raisebox{0.11em}{\textnormal{INF 20125}}}}
+\fancyhead[R]{\textnormal{Programación Avanzada}}
+\renewcommand{\headrulewidth}{0.45pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.83em}
+\setlist[itemize]{topsep=0.25em,itemsep=0.40em,parsep=0pt,leftmargin=1.25em}
+\newcommand{\instruccion}[1]{\texttt{#1}}
+\newcommand{\izq}{\textless\kern0pt}
+\newcommand{\der}{\textgreater\kern0pt}
+\newcommand{\seccion}[1]{\par\vspace{1.15em}{\Large\bfseries #1}\par\vspace{0.25em}}
+
+\begin{document}
+\thispagestyle{fancy}
+
+\begin{center}
+  {\huge \bf \sf Problema T}\par\vspace{0.28em}
+  {\LARGE\sffamily Texler: Editor de Texto}\par\vspace{0.22em}
+  \normalsize{{\em autor:} NM}
+\end{center}
+\vspace{0.95em}
+
+Durante la restauración de uno de los antiguos laboratorios de Informática, se encontró un registro de las teclas presionadas en una vieja terminal. Aunque las pulsaciones quedaron registradas, el texto que produjeron se perdió con el paso del tiempo.
+
+Como parte de un proyecto de conservación del Departamento de Informática, se le ha encargado desarrollar un programa que reproduzca el funcionamiento del editor de texto de aquella terminal y permita reconstruir el contenido original.
+
+El editor recibe una secuencia de instrucciones que permiten \textbf{escribir, mover un cursor y eliminar caracteres}. Para ello, mantiene una cadena de texto y un \emph{cursor}, que puede ubicarse al principio, al final o entre dos caracteres consecutivos.
+
+Inicialmente, el texto está vacío y el cursor se encuentra en la posición~0. Las instrucciones se procesan de izquierda a derecha, siguiendo las siguientes reglas:
+
+\begin{itemize}
+  \item[\textbullet] \textbf{Una letra entre \instruccion{a} y \instruccion{z}:} inserta la letra en la posición actual del cursor, desplazando hacia la derecha los caracteres necesarios para dejar espacio. Luego, el cursor avanza una posición.
+
+  \item[\textbullet] \textbf{\instruccion{\textless}:} mueve el cursor una posición hacia la izquierda. Si ya se encuentra al principio del texto, no ocurre nada.
+
+  \item[\textbullet] \textbf{\instruccion{\textgreater}:} mueve el cursor una posición hacia la derecha. Si ya se encuentra al final del texto, no ocurre nada.
+
+  \item[\textbullet] \textbf{\instruccion{\#}:} elimina el carácter inmediatamente anterior al cursor y lo hace retroceder una posición. Si el cursor está al principio del texto, no ocurre nada.
+
+  \item[\textbullet] \textbf{\instruccion{!}:} elimina el carácter inmediatamente posterior al cursor, sin modificar su posición. Si el cursor está al final del texto, no ocurre nada.
+\end{itemize}
+
+\textbf{Importante:} el cursor representa una posición \emph{entre} caracteres y no forma parte del texto. Por ejemplo, en \instruccion{ab|cd}, el símbolo \instruccion{|} representa un cursor ubicado entre \instruccion{b} y \instruccion{c}.
+
+Su tarea consiste en escribir un programa en C que procese la secuencia de instrucciones y determine el texto final que habría producido la antigua terminal.
+
+\newpage
+\seccion{Entrada}
+La entrada consiste en una única línea que contiene una cadena $S$, de longitud $1 \leq |S| \leq 1000$, formada exclusivamente por letras minúsculas del alfabeto inglés y por los símbolos \instruccion{\textless}, \instruccion{\textgreater}, \instruccion{\#} y \instruccion{!}. La secuencia no contiene espacios.
+
+\seccion{Salida}
+Imprima una única línea con el contenido final del editor. Si el texto queda vacío, imprima una línea vacía.
+
+\seccion{Ejemplos}
+
+\renewcommand{\arraystretch}{1.42}
+\begin{tabularx}{\linewidth}{|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+  \hline
+  \textbf{Ejemplo de entrada} & \textbf{Ejemplo de salida}\\
+  \hline
+  \instruccion{hola\izq\izq x} & \instruccion{hoxla}\\
+  \hline
+  \instruccion{abc\izq!} & \instruccion{ab}\\
+  \hline
+  \instruccion{abc\izq\izq\#z\der!} & \instruccion{zb}\\
+  \hline
+  \instruccion{abc\izq\izq\izq\izq x\der\der\der\der!} & \instruccion{xabc}\\
+  \hline
+  \instruccion{ab\#\#\der!} & \mbox{}\\
+  \hline
+\end{tabularx}
+
+\vspace{0.8em}
+\textbf{Observación.} En el último ejemplo, el texto queda vacío y la salida consiste en una \textbf{línea vacía}.
+
+\end{document}
